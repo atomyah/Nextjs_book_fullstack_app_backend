@@ -7,11 +7,20 @@ const updateItem = async(req, res) => {
     console.log(req)
     try{
         await connectDB()
+                    /*
+                        URLのapi/item/移行の文字列（スラグ）がreq.query.idに入る.
+                    */
         const singleItem = await ItemModel.findById(req.query.id)
         console.log('◆singleItem')
         console.log(singleItem)
 
-        if(singleItem === req.body.email){
+        /*
+        req.body.emailはauth.jsの中の(req.body.email = decoded.email)で
+        トークンから格納されたログインユーザのemailである.
+        singleItem.emailは文字通りMongoDBのテーブルから引っ張ってきた
+        emailデータ.
+        */
+        if(singleItem.email === req.body.email){ 
             await ItemModel.updateOne(
                 {_id: req.query.id},
                 req.body

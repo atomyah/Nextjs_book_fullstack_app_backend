@@ -14,8 +14,8 @@ const loginUser = async(req, res) => {
             if(req.body.password === savedUserData.password) {
                 const payload = { email: req.body.email, }
                 const token = jwt.sign(payload, secret_key, {expiresIn: "23h"})
-                console.log('◆token')
-                console.log(token)
+                //console.log('◆token')
+                //console.log(token)
                 return res.status(200).json({
                     message: "ログイン成功",
                     token: token,

@@ -17,7 +17,8 @@ const auth = (handler) => {
         後編のフロントエンド編で確認するので今は↓の1行でトークン取得できると考えとく.
         */
         const token = await req.headers.authorization.split(" ")[1]
-        //const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImV4YW1wbGVAZXguY29tIiwiaWF0IjoxNjYwNTQxODczLCJleHAiOjE2NjA2MjQ2NzN9.m9pxcR2C8PySPL2LUc6AVEehy6Wzx9qB1hlwBXjrWr0"
+        //const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImF0b21AeWFoLmJ6IiwiaWF0IjoxNjYwNjI4MDExLCJleHAiOjE2NjA3MTA4MTF9.ae9mDtu29yh56hw3ynsI_DVXNF-tHSqreDjAX8dR8pI"
+        
         if(!token){
             return res.status(400).json({
                 message:"トークンがありません"
