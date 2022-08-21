@@ -32,7 +32,13 @@ const ImgInput = (props) => {
 
     return (
         <div className="img-input">
-            <input type="file" onChange={(e) => setImageFile(e.target.files[0])} accept="image/png, image/jpg" />
+            <input type="file" onChange={              
+              (e) => 
+              //console.log(e.target.files) //e.target.filesにはFileListが格納され
+              //その中に[0]に「ファイルを選択」で選んだimg.jpgの名前やサイズ情報等々が入ってる.
+              setImageFile(e.target.files[0])
+            } 
+            accept="image/png, image/jpg" />
             <button onClick={handleClick} disabled={!imageFile}>画像アップロード</button>
         </div>
     )
