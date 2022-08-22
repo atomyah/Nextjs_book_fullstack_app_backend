@@ -44,6 +44,11 @@ const CreateItem = () => {
             <div>
                 <Head><title>アイテム作成</title></Head>
                 <h1 className="page-title">アイテム作成</h1>
+                {/*
+                ↓ ImgInputコンポーネントのプロパティに、ステートフックを
+                  指定している奇妙なやり方.ImgInput.jsでprops.setImage(jsonData.url)
+                  という風に使用している.
+                */}
                 <ImgInput image={image} setImage={setImage} />
                 <form onSubmit={handleSubmit}>
                         <input value={title} onChange={(e) => setTitle(e.target.value)} type="text" name="title" placeholder="アイテム名" required/>
