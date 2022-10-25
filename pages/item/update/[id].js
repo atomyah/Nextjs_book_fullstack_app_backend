@@ -3,15 +3,15 @@ import useAuth from "../../../utils/useAuth"
 import Head from "next/head"
 
 const UpdateItem = (props) => {
-    const [title, setTitle] = useState(props.singleItem.title)
-    const [price, setPrice] = useState(props.singleItem.price)
-    const [image, setImage] = useState(props.singleItem.image)
+    const [title, setTitle] = useState(props.singleItem.title) //初期値はgetServerSideProps()で
+    const [price, setPrice] = useState(props.singleItem.price) //バックエンドから取ってきた
+    const [image, setImage] = useState(props.singleItem.image) //データベースの内容（値）.
     const [description, setDescription] = useState(props.singleItem.description)
 
     const handleSubmit = async(e) => {
         e.preventDefault()
         try{
-            const response = await fetch(`http://localhost:3000/api/item/update/${props.singleItem._id}`,
+            const response = await fetch(`https://nextjs-book-fullstack-app-backend.vercel.app/api/item/update/${props.singleItem._id}`,
             {
                 method: "POST",
                 headers: {
@@ -51,7 +51,7 @@ const UpdateItem = (props) => {
             </div>
         )
     }else{
-        return <h1>権限がありません</h1>
+        return <h1>編集する権限がありません</h1>
     }
 }
 
@@ -59,13 +59,18 @@ export default UpdateItem
 
 
 export const getServerSideProps = async(context) =>{
-    const response = await fetch(`http://localhost:3000/api/item/${context.query.id}`)
+    const response = await fetch(`https://nextjs-book-fullstack-app-backend.vercel.app/api/item/${context.query.id}`)
     const singleItem = await response.json()
     // console.log(context) 
                         /* URLのスラグ部分（../api/item/○○○○の○○○○部分）は、
                            contextのqueryのidに入っている.
                         */                     
     return{
-      props: singleItem
+      props: singleItem 
     }
 }
+/* returnするsingleItemの中身は、
+    {message: "アイテム読み取り成功（シングル）",
+    singleItem: singleItem}
+    singleItemはSavedItemDataType型(ItemDataTypeに_idを加えたもの)
+*/

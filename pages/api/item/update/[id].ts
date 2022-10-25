@@ -1,8 +1,12 @@
 import connectDB from "../../../../utils/database"
 import { ItemModel } from "../../../../utils/schemaModels"
 import auth from "../../../../utils/auth"
+import type { NextApiResponse } from "next"
+import { ResMessageType, ExtendedNextApiRequestItem, SavedItemDataType } from "../../../../utils/types"
 
-const updateItem = async(req, res) => {
+const updateItem = async(req:ExtendedNextApiRequestItem, res:NextApiResponse<ResMessageType>) => {
+
+    // authから引き継がれたdecoded.emalがreq.body.emailとしてここに渡される
     console.log('◆req')
     console.log(req)
     try{
@@ -10,9 +14,12 @@ const updateItem = async(req, res) => {
                     /*
                         URLのapi/item/移行の文字列（スラグ）がreq.query.idに入る.
                     */
-        const singleItem = await ItemModel.findById(req.query.id)
+        const singleItem:SavedItemDataType | null = await ItemModel.findById(req.query.id)
         console.log('◆singleItem')
         console.log(singleItem)
+        if(!singleItem) return res.status(400).json({
+            message:"アイテムが存在しないため編集失敗"
+        })
 
         /*
         req.body.emailはauth.jsの中の(req.body.email = decoded.email)で

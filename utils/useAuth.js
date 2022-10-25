@@ -1,5 +1,7 @@
+// ログイン状態を調べるカスタムフックuseAuth
+
 import { useState, useEffect } from "react"
-import { Router, useRouter } from "next/router"
+import { useRouter } from "next/router"
 import jwt from "jsonwebtoken"
 
 const secret_key = "nextmarket"
@@ -12,6 +14,7 @@ const useAuth = () => {
 
     //編集や作成ページにアクセスがあった場合、何よりもまずuseAuth.jsの処理が行われないと
     //いけない. このようにページが表示される前に行いたい処理は、useEffectフックを使う.
+    //しかし、なぜミドルウェアのように機能するのか不明。
     useEffect(() => {
         const token = localStorage.getItem("token")
 
@@ -26,6 +29,7 @@ const useAuth = () => {
             router.push("/user/login")
         }
     }, [router])
+    // [router]ってのは不明？
 
     // 最後に、ログインユーザのメールアドレスloginUserを他のファイルで
     // 使えるようにするため、このコード↓を追加.

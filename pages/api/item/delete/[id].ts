@@ -1,8 +1,10 @@
 import connectDB from "../../../../utils/database";
 import { ItemModel } from "../../../../utils/schemaModels";
 import auth from "../../../../utils/auth"
+import type { NextApiResponse } from "next"
+import { ResMessageType, ExtendedNextApiRequestItem, SavedItemDataType } from "../../../../utils/types"
 
-const deleteItem = async(req, res) => {
+const deleteItem = async(req:ExtendedNextApiRequestItem, res:NextApiResponse<ResMessageType>) => {
     console.log('◆req')
     console.log(req)
     try{
@@ -10,10 +12,13 @@ const deleteItem = async(req, res) => {
                     /*
                         URLのapi/item/以降の文字列（スラグ）がreq.query.idに入る.
                     */
-        const singleItem = await ItemModel.findById(req.query.id)
+        const singleItem:SavedItemDataType | null = await ItemModel.findById(req.query.id)
         console.log('◆singleItem')
         console.log(singleItem)
-
+        if(!singleItem) return res.status(400).json({
+            message:"アイテムが存在しないため編集失敗"
+        })
+        
         /*
         req.body.emailはauth.jsの中の(req.body.email = decoded.email)で
         トークンから格納されたログインユーザのemailである.

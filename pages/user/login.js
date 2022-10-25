@@ -2,13 +2,16 @@ import { useState } from "react"
 import Head from "next/head"
 
 const Login = () => {
+    // 分割代入試したけどできなかった…
     const [email, setEmail] = useState("")      
     const [password, setPassword] = useState("") 
 
+    // ()でなく(e)にしないとe.preventDefault()が書けない.
+    // e.preventDefault()がないとButtonを押すとリロードされてしまう.
     const handleSubmit = async(e) => {
         e.preventDefault()
         try{
-            const response = await fetch("http://localhost:3000/api/user/login",
+            const response = await fetch("https://nextjs-book-fullstack-app-backend.vercel.app/api/user/login",
             {
             method:"POST",
             headers:{
@@ -20,11 +23,11 @@ const Login = () => {
                     password: password,
                     }),
             })
-            const jsonData = await response.json()
+            const jsonData = await response.json() //responseデータ（messageとtoken）をjson形式に変換.
             // ↓ブラウザのlocalStorageにトークンを保存.
             localStorage.setItem("token",jsonData.token)
             console.log('◆jsonData')
-            console.log(jsonData)
+            console.log(jsonData) // バックエンドからのresponse、res.json({message: "ログイン成功",token: token}の内容が表示される
             alert(jsonData.message)
         }catch(err){
             alert("ログイン失敗")

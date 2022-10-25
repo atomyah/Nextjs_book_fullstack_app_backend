@@ -3,8 +3,8 @@ import Link from "next/link"
 import Head from "next/head"
 
 const ReadSingleItem = (props) => {
-    console.log('◆props:')
-    console.log(props)
+    //console.log('◆props:')
+    //console.log(props)
     return(
         <div className="grid-container-si">
             <Head><title>{props.singleItem.title}</title></Head>
@@ -35,13 +35,24 @@ const ReadSingleItem = (props) => {
 
 export default ReadSingleItem
 
-
+                                // contextは任意の名前で結構.
+                                // contextの中にはreq, res, query(クエリパラメータ)が入ってる.
+                                // 例：コンソール出力すると"query: { id: 'elsietshsllew'}"という感じ。
 export const getServerSideProps = async(context) =>{
-    const response = await fetch(`http://localhost:3000/api/item/${context.query.id}`)
+    const response = await fetch(`https://nextjs-book-fullstack-app-backend.vercel.app/api/item/${context.query.id}`)
     const singleItem = await response.json()
-    // console.log(context) // URLのスラグ部分（../api/item/○○○○の○○○○部分）は、
-                         // contextのqueryのidに入っている.
+    // URLのスラグ部分（../api/item/○○○○の○○○○部分）は、
+    // contextの中のqueryの中のidに入っている.index.jsで
+    // <Link href={`/item/${item._id}`}>としたように、各アイテムの_id番号がスラグになっている.
+    
+    console.log("context =", context) 
+
     return{
       props: singleItem
     }
 }
+/* returnするsingleItemの中身は、
+    {message: "アイテム読み取り成功（シングル）",
+    singleItem: singleItem}
+    singleItemはSavedItemDataType型(ItemDataTypeに_idを加えたもの)
+*/

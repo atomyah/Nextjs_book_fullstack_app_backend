@@ -1,7 +1,9 @@
 import connectDB from "../../../utils/database"
 import { UserModel } from "../../../utils/schemaModels"
+import type { NextApiResponse } from "next"
+import { ResMessageType, ExtendedNextApiRequestUser } from "../../../utils/types"
 
-const registerUser = async(req, res) => {
+const registerUser = async(req: ExtendedNextApiRequestUser, res: NextApiResponse<ResMessageType>) => {
     try {
         await connectDB()
         await UserModel.create(req.body)

@@ -30,7 +30,7 @@ const Register = () => {
   const handleSubmit = async(e) => {
     e.preventDefault()  
     try{
-      const response = await fetch("http://localhost:3000/api/user/register",
+      const response = await fetch("https://nextjs-book-fullstack-app-backend.vercel.app/api/user/register",
         {
         method:"POST",
         headers:{
@@ -49,9 +49,9 @@ const Register = () => {
 
         })
         
-      const jsonData = await response.json()
+      const jsonData = await response.json() //responseにはバックエンドから渡されたresの内容{message:"ユーザー登録成功"}が入っている.
       console.log('◆jsonData：' + jsonData)
-      alert(jsonData.message)
+      alert(jsonData.message)                //従ってここalertでは"ユーザー登録成功"が表示される
     }catch(err){
         alert("ユーザー登録失敗")
     }

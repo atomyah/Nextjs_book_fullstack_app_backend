@@ -12,7 +12,7 @@ const CreateItem = () => {
     const handleSubmit = async(e) => {
         e.preventDefault()
         try{
-            const response = await fetch("http://localhost:3000/api/item/create",
+            const response = await fetch("https://nextjs-book-fullstack-app-backend.vercel.app/api/item/create",
             {
                 method: "POST",
                 headers: {
@@ -42,7 +42,7 @@ const CreateItem = () => {
     if(loginUser){
         return (
             <div>
-                <Head><title>アイテム作成</title></Head>
+                <title>アイテム作成</title>
                 <h1 className="page-title">アイテム作成</h1>
                 {/*
                 ↓ ImgInputコンポーネントのプロパティに、ステートフックを
@@ -59,6 +59,8 @@ const CreateItem = () => {
                 </form>
             </div>
         )
-    }
+    } // else(!loginUser){...を書かなくても/user/loginページに飛ばされる。
+      // そのワケはuseAuth.jsのuseEffect内のif(!token){router.push("/user/login")
+      // が効いているから？
 }
 export default CreateItem

@@ -1,10 +1,15 @@
 import connectDB from "../../../utils/database"
 import { ItemModel } from "../../../utils/schemaModels"
+import type { NextApiRequest, NextApiResponse } from "next"
+import { ResReadSingleType,SavedItemDataType } from "../../../utils/types"
 
-const getSingleItem = async(req, res) => {
+const getSingleItem = async(req:NextApiRequest, res:NextApiResponse<ResReadSingleType>) => {
     try{
         await connectDB()
-        const singleItem = await ItemModel.findById(req.query.id)
+        const singleItem:SavedItemDataType | null = await ItemModel.findById(req.query.id)
+        if(!singleItem) return res.status(400).json({
+            message: "アイテムが存在していないため読み取り失敗"
+        })
         return res.status(200).send({
             message: "アイテム読み取り成功（シングル）",
             singleItem: singleItem

@@ -7,7 +7,7 @@ const DeleteItem = (props) => {
     const handleSubmit = async(e) => {
         e.preventDefault()
         try{
-            const response = await fetch(`http://localhost:3000/api/item/delete/${props.singleItem._id}`,
+            const response = await fetch(`https://nextjs-book-fullstack-app-backend.vercel.app/api/item/delete/${props.singleItem._id}`,
             {
                 method: "POST",
                 headers: {
@@ -16,6 +16,7 @@ const DeleteItem = (props) => {
                     "authorization": `Bearer ${localStorage.getItem("token")}`
                 },
             })
+            // 削除なので、送るべきbody(title, price...)は何もない。
             const jsonData = await response.json()
             alert(jsonData.message)
         }catch(err){
@@ -41,14 +42,14 @@ const DeleteItem = (props) => {
                 </div>
             )
         }else{
-            return <h1>権限がありません</h1>
+            return <h1>削除する権限がありません</h1>
         }
 }
 export default DeleteItem
 
 
 export const getServerSideProps = async(context) =>{
-    const response = await fetch(`http://localhost:3000/api/item/${context.query.id}`)
+    const response = await fetch(`https://nextjs-book-fullstack-app-backend.vercel.app/api/item/${context.query.id}`)
     const singleItem = await response.json()
     // console.log(context) 
                         /* URLのスラグ部分（../api/item/○○○○の○○○○部分）は、
@@ -57,4 +58,9 @@ export const getServerSideProps = async(context) =>{
     return{
       props: singleItem
     }
+    /* returnするsingleItemの中身は、
+    {message: "アイテム読み取り成功（シングル）",
+    singleItem: singleItem}
+    singleItemはSavedItemDataType型(ItemDataTypeに_idを加えたもの)
+    */
 }
